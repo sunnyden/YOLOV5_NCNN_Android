@@ -29,12 +29,7 @@ Java_gd_hq_yolov5_YOLOv5_init(JNIEnv* env, jclass, jobject assetManager) {
 
 extern "C" JNIEXPORT jobjectArray JNICALL
 Java_gd_hq_yolov5_YOLOv5_detect(JNIEnv* env, jclass, jobject image, jdouble threshold, jdouble nms_threshold) {
-    timeval start_time{},end_time{};
-    gettimeofday(&start_time,nullptr);
     auto result = YoloV5::detector->detect(env,image,threshold,nms_threshold);
-    gettimeofday(&end_time,nullptr);
-    auto delta = (float)((end_time.tv_sec - start_time.tv_sec) * 1000000 + end_time.tv_usec - start_time.tv_usec);
-    __android_log_print(ANDROID_LOG_ERROR,"NCNN","Process Time:%f ms\n",delta/1000);
 
     auto box_cls = env->FindClass("gd/hq/yolov5/Box");
     auto cid = env->GetMethodID(box_cls, "<init>", "(FFFFIF)V");
