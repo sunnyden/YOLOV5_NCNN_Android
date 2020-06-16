@@ -33,9 +33,7 @@ std::vector<BoxInfo> YoloV5::detect(JNIEnv* env, jobject image, float threshold,
         ncnn::Mat blob;
         ex.extract(layer.name.c_str(),blob);
         auto boxes = decode_infer(blob,layer.stride,{(int)img_size.width,(int)img_size.height},input_size,num_class,layer.anchors,threshold);
-        for(int i=0;i<num_class;i++){
-            result.insert(result.begin(),boxes.begin(),boxes.end());
-        }
+        result.insert(result.begin(),boxes.begin(),boxes.end());
     }
     nms(result,nms_threshold);
     return result;
